@@ -13,12 +13,11 @@ async function getActiveAccountIds(params) {
             results: accs.Accounts
         };
     });
+
     let activeAccounts = new Set();
     for (acc of accounts) {
-        if (acc.Status == 'ACTIVE') {
-            activeAccounts.add(acc.Id);
-        }
-    }
+        if (acc.Status == 'ACTIVE') activeAccounts.add(acc.Id);
+    };
     return activeAccounts;
 };
 

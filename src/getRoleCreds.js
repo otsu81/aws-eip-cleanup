@@ -13,6 +13,6 @@ async function getRoleCredentials (accountId, roleName, sessionName) {
     // Create the STS service object
     const sts = new AWS.STS();
     return await sts.assumeRole(roleToAssume).promise();
-}
+};
 
 exports.getRoleCredentials = getRoleCredentials;
