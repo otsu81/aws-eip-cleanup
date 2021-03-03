@@ -48,7 +48,7 @@ async function getUnassociatedAddressesFromRegion(accountId, region) {
                 else {
                     let tags = {};
                     for (let t of eip.Tags) tags[t.Key] = t.Value;
-                    if (!tags[process.env.IGNORE_TAG_KEY] == IGNORE_TAG_VALUE) missingAssociations.push(eip.AllocationId);
+                    if (!tags[process.env.IGNORE_TAG_KEY] == process.env.IGNORE_TAG_VALUE) missingAssociations.push(eip.AllocationId);
                 }
             };
         }

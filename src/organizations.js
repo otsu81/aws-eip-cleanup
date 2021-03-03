@@ -30,12 +30,13 @@ async function getActiveAccountIdsExceptOu(params) {
         return {
             marker: a.NextToken,
             results: a.Accounts
-        }
+        };
     });
 
     for (let id of outOfScopeIds) {
         accounts.delete(id.Id);
-    }
+    };
+
     return accounts;
 };
 
