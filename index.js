@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const fs = require('fs');
 const org = require('./src/organizations');
-const getRoleCredentials = require('./src/getRoleCreds');
+const rolecreds = require('./src/getRoleCreds');
 require('dotenv').config();
 
 const regions = [
@@ -30,7 +30,7 @@ const regions = [
 
 async function getUnassociatedAddressesFromRegion(accountId, region) {
     try {
-        const creds = await getRoleCredentials(accountId, process.env.ROLE, 'elasticIpInventoryBot');
+        const creds = await rolecreds.getRoleCredentials(accountId, process.env.ROLE, 'elasticIpInventoryBot');
         console.log(`working on ${accountId}:${region}`);
         let ec2 = new AWS.EC2({
             region: region,
