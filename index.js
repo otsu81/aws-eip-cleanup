@@ -52,6 +52,9 @@ async function getUnassociatedAddressesFromRegion(accountId, region) {
                 }
             };
         }
+
+        // await deallocateElasticIp(missingAssociations, ec2);
+
         return [accountId, region, missingAssociations];
 
     } catch (err) {
@@ -60,14 +63,27 @@ async function getUnassociatedAddressesFromRegion(accountId, region) {
 
 };
 
-// TODO async function deallocateElasticIp(associationIds)
+async function deallocateElasticIp(associationIds, ec2Client) {
+    try {
+        var promises = [];
+        for (let i in associationIds) {
+            promises.push(ec2Client.releaseAddress({AllocationId: associationIds[i]}).promise());
+        };
+
+        return await Promise.all(promises);
+
+    } catch (err) {
+        console.log(err);
+    };
+};
+
 
 async function run(params) {
     try {
         let accounts = await org.getActiveAccountIdsExceptOu({ParentId: params.ExcludeOU});
         accounts.delete('946939952825');
 
-        // let accounts = ['763263601091', '588323308365'];
+        // let accounts = ['763263601091'];
         // const regions = ['eu-west-1'];
 
         let promises = [];
@@ -90,9 +106,10 @@ async function run(params) {
             }
         };
 
-        console.log(JSON.stringify(results));
+        console.log(JSON.stringify(results, null, 4));
 
-        fs.writeFile('out/result.json', JSON.stringify(results, null, 4), (err) => {
+        const timestamp = new Date(Date.now());
+        fs.writeFile(`out/result${timestamp}.json`, JSON.stringify(results, null, 4), (err) => {
             if (err) console.log(err);
         });
 
