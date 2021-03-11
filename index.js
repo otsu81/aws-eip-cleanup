@@ -77,7 +77,6 @@ async function deallocateElasticIp(associationIds, ec2Client) {
     };
 };
 
-
 async function run(params) {
     try {
         let accounts = await org.getActiveAccountIdsExceptOu({ParentId: params.ExcludeOU});
